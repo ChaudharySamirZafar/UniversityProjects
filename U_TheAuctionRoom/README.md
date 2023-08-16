@@ -7,8 +7,6 @@ This was part of my Client Server Systems module in year 2 of university. I gain
 - PHP
 - HTML
 - CSS
-- JSON
-- AJAX
 ### Framework
 MVC
  
