@@ -1,0 +1,103 @@
+<?php require('Template/header.phtml');?>
+    <p id="networkKey" style="display: none"><?php echo $_SESSION['networkKey']?></p>
+    <div class="container">
+        <div class="row justify-content-md-center  mt-2 ">
+            <div class='col-lg-4 col-md-6 mb-4 mt-5'>
+                <div class='card border text-center'>
+                    <h5 class="card-title text-center"> Filters </h5>
+                    <form action="searchItems.php" method="post" class="justify-content-center">
+                        <label>
+                            <input type="radio" name="filters" value="lowToHigh" >
+                        </label> Price : Low To High
+                        <br>
+                        <label>
+                            <input type="radio" name="filters" value="highToLow">
+                        </label> Price : High To Low
+                        <br>
+                        <label> Min Price </label>
+                        <input type="range" name="price-min" id="price-min" value="0" min="0" max="52683" onchange="rangePrimary.value=value">
+                        <input  type="number"  id="rangePrimary" name="rangePrimary"></input>
+
+                        <br>
+                        <label> Max Price </label>
+                        <input type="range" name="price-max" id="price-max" value="52683" min="0" max="52683" onchange="rangeSecondary.value=value">
+                        <input  type="text"  id="rangeSecondary" name="rangeSecondary">
+
+                        <br>
+                        <h5 class="text-center"><button class=" btn btn-custom" name="submit" type="submit"> Apply Filter </button></h5>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row justify-content-md-center mt-2">
+                <form action="searchItems.php" method="post">
+                    <h5 class="text-center"> Page Layout </h5>
+                    <ul>
+                        <label><input type="number" name="scrollValue" min="3" max="150"> Results Per Scroll </label>
+                    </ul>
+                    <h5 class="text-center"><button class=" btn btn-custom" name="submit-scroll" type="submit"> Apply </button></h5>
+                </form>
+            </div>
+        </div>
+
+        <div class="row justify-content-md-center h-100" id="lotSection">
+            <?php
+            //sets a card template to use for each auction item
+            $cardHTMLTemplate = "<div class='col-lg-4 col-md-6 mb-4 mt-5'>
+                <div class='card h-100 border'>
+                    <a href='#'><img class='card-img-top' src='%s' alt=''></a>
+    <div class='card-body'>
+                        <h5>%s</h5>
+                        <p class='card-tex'>%s</p>
+                    </div>
+                    <div class='card-footer'>      
+                      <p class='text-white'><strong> End Date : %s </strong></p> 
+                       <p><strong> Starting Bid : £%s </strong></p> 
+                       <form method='post' action='singleItem.php'>
+                       <button name='viewBtn' class='btn  rounded-pill btn-custom  text-uppercase' type='submit'><strong> View </strong> </button> 
+                       <input name='auctionID' value='%s' style='display: none'>
+                        </form>  
+                    </div> 
+                </div>
+            </div>";
+            //query is equals to an array returned to retrieve items which holds various AuctionData variables
+            $query = retrieveItems();
+            $i = 0;
+            //this foreach loop displays all information for every single AuctionData variable stored in $query
+            foreach ($query as $index) {
+                $imagePath = $index->getImagePath();
+                $itemName = $index->getProductName();
+                $itemDescription = $index->getProductDescription();
+                $endDate = $index->getEndDate();
+                $minBid = $index->getMinimumBid();
+                $itemId = $index->getItemID();
+                echo sprintf($cardHTMLTemplate, $imagePath, $itemName, $itemDescription, $endDate, $minBid, $itemId);
+                $i++;
+            }
+            //if their is no relevant search then display this message
+            if($i == 0)
+            {
+                echo "<h1 class='text-center ' style='margin-bottom: 450px'> There are no auctions that match your search, please try again </h1> ";
+            }
+            ?>
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.row -->
+    <div class="container-fluid">
+        <div class="row justify-content-center" id="lotLoader">
+<!--                <h5 class="text-center"><button class=" btn btn-custom" onclick="loadLots()"> Show More </button></h5>-->
+        </div>
+    </div>
+        </div>
+    </div>
+
+    <h1 id="numberOfResults" style="display: none"> <?php echo $_SESSION['results'] ?></h1>
+    <h1 id="scrollVal" style="display: none"> <?php if (isset($_POST['scrollValue'])) echo $_POST['scrollValue'] ?> </h1>
+
+<script src="AJAX/infiniteScrolling.js">
+
+</script>
+<?php require('Template/footer.phtml');?>

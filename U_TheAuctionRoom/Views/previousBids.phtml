@@ -1,0 +1,94 @@
+<?php require('Template/header.phtml'); ?>
+<div class="container">
+    <div class="row justify-content-md-center h-100">
+        <?php
+        //this variable is if they are winning the item
+        $winningHTML = "<div class='col-lg-4 col-md-6 mb-4 mt-5'>
+                <div class='card h-100 border'>
+                    <a href='#'><img class='card-img-top' src='%s' alt=''></a>
+    <div class='card-body'>
+    <div class='alert alert-success text-center' role='alert'>
+                            <i class='fa fa-check'> You won this auction </i>  
+                        </div>
+                        <h4 class='34'>
+                            <a href='#' class='text-dark'> %s</a>
+                        </h4>
+                        <h5>%s</h5>
+                        <p class='card-tex'>%s</p>
+                    </div>
+                    <div class='card-footer'>      
+                      <p class='text-white'><strong> End Date : %s </strong></p> 
+                       <p><strong class=''> Starting Bid : £%s </strong></p>
+                       <p style='color: lightgreen'><strong> Your Bid : £%s </strong></p>  
+                       <form method='post' action='singleItem.php'>
+                       <button name='viewBtn' class='btn  rounded-pill btn-custom  text-uppercase' type='submit' href='index.php'><strong> View </strong> </button> 
+                       <input name='auctionID' value='%s' style='display: none'>
+                        </form>  
+                    </div> 
+                </div>
+            </div>";
+
+        //this variable is if they are losing the item
+        $losingHTML = "<div class='col-lg-4 col-md-6 mb-4 mt-5'>
+                <div class='card h-100 border'>
+                    <a href='#'><img class='card-img-top' src='%s' alt=''></a>
+    <div class='card-body'>
+    <div class='alert alert-danger text-center' role='alert'>
+                            <i class='fa fa-exclamation-circle'> You Lost This Auction  </i>  
+                        </div>
+                        <h4 class='34'>
+                            <a href='#' class='text-dark'> %s</a>
+                        </h4>
+                        <h5>%s</h5>
+                        <p class='card-tex'>%s</p>
+                    </div>
+                    <div class='card-footer'>      
+                      <p class='text-white'><strong> End Date : %s </strong></p> 
+                       <p><strong> Starting Bid : £%s </strong></p>
+                       <p style='color: red'><strong> Your Bid : £%s </strong>
+                       <p><strong style='color: lightgreen'> Winning Bid : £%s </strong> 
+                       <form method='post' action='singleItem.php'>
+                       <button name='viewBtn' class='btn  rounded-pill btn-custom  text-uppercase' type='submit' href='index.php'><strong> View </strong> </button> 
+                       <input name='auctionID' value='%s' style='display: none'>
+                        </form>  
+                    </div> 
+                </div>
+            </div>";
+
+        //array of lots gets all of the users previous bids
+        $arrayOfLots = generateAllPreviousBids();
+        //bids of user get all of the current bids a user has placed on different items
+        $bidsOfUser = getUserBidInfo();
+        //max bids gets the largest bid on the item this current user has bidded on
+        $maxBids = getMaxBidInfo();
+
+        $i = 0;
+        //this for each gets all of the data for the auctions and displays it via sprintf
+        foreach ($arrayOfLots as $lot)
+        {
+            //bid data is defined in the variable and check the largest big on a item
+            $maxBidOnItem = $bidData->getMaxBid($bidsOfUser[$i]);
+            $imagePath = $lot->getImagePath();
+            $itemTitle = $lot->getProductTitle();
+            $itemName = $lot->getProductName();
+            $itemDescription = $lot->getProductDescription();
+            $endDate = $lot->getEndDate();
+            $minBid = $lot->getMinimumBid();
+            $itemId = $lot->getItemID();
+            //if the user has the highest bid on the item then display the winning html else the losing html
+            if($maxBids[$i] == $maxBidOnItem)
+            {
+                echo sprintf($winningHTML , $imagePath,$itemName, $itemTitle ,$itemDescription, $endDate,$minBid,$maxBids[$i],$itemId);
+            }
+            else
+            {
+                echo sprintf($losingHTML , $imagePath,$itemName, $itemTitle ,$itemDescription, $endDate,$minBid,$maxBids[$i], $maxBidOnItem,$itemId);
+            }
+            $i++;
+        }
+        ?>
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.row -->
+<?php require('Template/footer.phtml'); ?>

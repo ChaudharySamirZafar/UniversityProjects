@@ -1,0 +1,97 @@
+<?php require('Template/header.phtml');?>
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-3">The Auction Room</h1>
+        <p> Auction With Affordability </p>
+        <form action="searchItems.php" method="post">
+            <button class="btn btn-dark text-white" type="submit" name="search-all"> Search Live Auctions </button>
+        </form>
+    </div>
+</div>
+<!-- #intro -->
+
+<main id="main">
+    <!--==========================
+      Featured Services Section
+    ============================-->
+    <section id="featured-services" >
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 box">
+                    <i class="ion-ios-bookmarks-outline"></i>
+                    <h4 class="title">Variety</h4>
+                    <p class="description">Here at the auction room, we off a variety of categories suited to a diverse audience</p>
+                </div>
+                <div class="col-lg-4 box box-bg">
+                    <i class="ion-ios-stopwatch-outline"></i>
+                    <h4 class="title"> Unique </h4>
+                    <p class="description">You will discover some of the most exclusive items on auction hosted by us </p>
+                </div>
+                <div class="col-lg-4 box">
+                    <i class="ion-ios-heart-outline"></i>
+                    <h4 class="title">Consistency</h4>
+                    <p class="description">We hold an auction<strong> EVERY SINGLE DAY</strong></p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <h1 class="text-center">Search Our Popular Categories</h1>
+            <div class="row justify-content-md-center">
+                <div class="col-md-4">
+                    <div class="card mb-4 box-shadow">
+                        <div class="card-title">
+                            <h1 class="text-center"> Watches & Jewellery </h1>
+                        </div>
+                        <img class="card-img-top" src="homepage-Images/watch.jpg" alt="Card image cap" style="padding: 10px; border: outset">
+                        <div class="card-body">
+                            <p class="card-text">Great range of Watches & Jewellery. Including brands such as Rado, Rolex, Cartier, Gucci</p>
+                                <div class="btn-group">
+                                    <form action="searchItems.php" method="post">
+                                        <button  name="search-watches" href="searchItems.php" type="submit" class="btn btn-custom float-left">Search Watches </button>
+                                    </form>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 box-shadow">
+                        <div class="card-title">
+                            <h1 class="text-center"> Cars </h1>
+                        </div>
+                        <img class="card-img-top" src="homepage-Images/urus2.jpg" alt="Card image cap" style="padding: 10px; border: outset">
+                        <div class="card-body">
+                            <p class="card-text">A wide variety of cars are available on auctions now!</p>
+                            <div class="btn-group">
+                                <form action="searchItems.php" method="post">
+                                    <button  name="search-cars" href="searchItems.php" type="submit" class="btn btn-custom float-left">Search Cars </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 box-shadow">
+                        <div class="card-title">
+                            <h1 class="text-center"> Books </h1>
+                        </div>
+                        <img class="card-img-top" src="homepage-Images/book3.jpg" alt="Card image cap" style="padding: 10px; border: outset">
+                        <div class="card-body">
+                            <p class="card-text"> Amazing variety of books, published by some of the best authors in the world</p>
+                            <div class="btn-group">
+                                <form action="searchItems.php" method="post">
+                                    <button  name="search-books" href="searchItems.php" type="submit" class="btn btn-custom float-left">Search Books </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</main>
+
+
+
+
+<?php require('Template/footer.phtml');?>

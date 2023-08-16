@@ -1,0 +1,107 @@
+<?php require('Template/header.phtml');?>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin my-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">List Item</h5>
+                    <form class="form-signUp" action ="sellItems.php" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label><strong> Product Name </strong></label>
+                            <input type="text" class="form-control" name="product-Name"  placeholder="ProductName" required autofocus>
+                        </div>
+                        <div class="form-group">
+                            <label><strong> Title</strong></label>
+                            <input type="text" class="form-control" name="product-Title"  placeholder="ProductName" required>
+                        </div>
+                        <div class="form-group">
+                            <label><strong> Category </strong></label>
+                            <select class="form-control" name="product-Category"required >
+                                <option disabled selected>Select your option</option>
+                                <option value="Watches & Jewellery">Watches & Jewellery</option>
+                                <option value="Furniture">Furniture</option>
+                                <option value="Fine Art">Fine Art</option>
+                                <option value="Decorative Art">Decorative Art</option>
+                                <option value="Collectables">Collectables</option>
+                                <option value="Collectables">Cars</option>
+                                <option value="Collectables">Books</option>
+                            </select>
+                        </div>
+
+                        <?php
+                        echo  ' <div class="form-group">
+                            <label><strong> Schedule Your Listing </strong></label>
+                            <select class="form-control" name="product-list-date" required >
+                            <option disabled selected>Select your date</option> '?>
+
+                        <?php
+                            //this variable gets all of the dates from the controller and displays them in a drop down
+                            $a = getDates();
+                            $i = 0;
+                            //for each date display a drop down option and if their are none show a message
+                            foreach($a as $index)
+                            {
+                                echo '<option value="'.$index.'"> '.$index.' </option>';
+                                $i++;
+                            }
+                            if($i==0)
+                            {
+                                echo '<option disabled> No Auctions Are Available At The moment </option>';
+                            }
+
+                        echo  '</select>
+                        </div>';
+                       ?>
+                        <div class="form-group">
+                            <label><strong> Description</strong></label>
+                            <textarea name="product-description" class="form-control"  rows="3" placeholder="Please add a description..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label><strong> Starting Bid</strong></label>
+                            <input type="number" class="form-control" name="product-startingBid"  placeholder="StartingBid" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label><strong> Upload Image</strong></label>
+                            <input type="file" accept="image/*" class="form-control-file" name="fileToUpload[]" id="fileToUpload" multiple required>
+                        </div>
+                        <?php
+                            //numbers variable stores two randoms numbers provided by the controller
+                            $numbers = generateRandom();
+                            echo '<label><strong> Captcha </strong></label>';
+                            echo '<p> '.$numbers[0].' + '.$numbers[1].' = ?</p> ';
+                            echo '<label class="mr-2"><strong> Your Answer </strong></label>';
+                            echo '<input name="captcha-answer" type="number" required>';
+
+                            //if the submit btn is pressed then if the controller check comes back and is true show a success message if not show a error message
+                            if(isset($_POST['submitBtn']))
+                            {
+                                if(isset($_SESSION['logIn']) && $view->success == true) {http://aee363.poseidon.salford.ac.uk/ClientServer/index.phphttp://aee363.poseidon.salford.ac.uk/ClientServer/index.phphttp://aee363.poseidon.salford.ac.uk/ClientServer/index.php
+                                    echo'<div class="alert alert-success text-center" role="alert">
+                                    <i class="fa fa-check"> Successfully Listed Your Item </i>  
+                                    </div>';
+                                }
+                                else{
+                                    echo '<div class="alert alert-danger text-center" role="alert">
+                                    <i class="fa fa-exclamation-circle"> Your answer for the Captcha was wrong </i>  
+                                    </div>';
+                                }
+                            }
+                        ?>
+                        <button name="submitBtn" class="btn mt-5 rounded-pill btn-lg btn-custom btn-block text-uppercase" type="submit"><i class="mr-2"></i> List Item</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+
+    if(fetchThisUsersListings() > 0 || fetchThisUsersFutureListings() > 0)
+    {
+        echo '<div class="container">';
+        echo '<a href="listedItems.php" class="text-dark" style="text-decoration: none"><h1 class="text-center">View Your Current Listings</h1> </a>  ';
+        echo '</div>';
+    }
+
+?>
+<?php require('Template/footer.phtml');?>

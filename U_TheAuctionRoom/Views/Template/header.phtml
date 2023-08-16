@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=egge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <title>Home Page</title>
+</head>
+<body>
+<!-- Header -->
+<nav class="navbar navbar-expand-sm navbar-dark">
+    <a href="index.php" class="navbar-brand"> The Auction Room </a>
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarMenu">
+        <ul class="navbar-nav ml-auto">
+            <?php
+            if(isset($_SESSION['logIn']) == false)
+            echo '<li>
+                <a href="logIn.php" class="nav-link">
+                        <span class="fa fa-user" aria-hidden="true">
+                        </span> Sign In </a>
+            </li>';
+            else
+            {
+                echo '<li>
+                <a href="logIn.php" class="nav-link">
+                        <span class="fa fa-sign-out" aria-hidden="true">
+                        </span> Log Out </a>
+                </li>';
+            }
+            //if the user is not a admin show them the default nav options
+            if ($user->getAdminStatus() == false)
+                {
+                    echo  '<li>
+                <a href="bidList.php" class="nav-link"> Bid List </a>
+            </li>';
+
+                }
+            else
+            {
+                echo '<li>
+                <a href="sellItems.php" class="nav-link"> Sell items </a>
+                    </li>';
+
+                echo  '<li>
+                <a href="auctions.php" class="nav-link"> Manage Auctions </a>
+            </li>';
+            }
+            ?>
+
+        </ul>
+        <form class="form-inline my-2 my-lg-0" action="searchItems.php" method="post">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search..." name="categorySearch">
+            <button class="btn btn-secondary my-2 my-sm-0" type="submit" name="searchBtn">Search</button>
+        </form>
+    </div>
+</nav>
+

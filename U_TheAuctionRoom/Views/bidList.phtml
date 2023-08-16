@@ -1,0 +1,110 @@
+<?php require('Template/header.phtml'); ?>
+<div class="container">
+    <p id="networkKey" style="display: none"><?php echo $_SESSION['networkKey'] ?></p>
+    <?php //if the user is logged then check if they have any previous auction if not dont display a message
+    //if the user is not logged in displays a message for them to log in
+    if (isset($_SESSION['logIn'])) {
+        if (calculatePreviousAuctions() > 0) {
+            echo '<h1 class="mt-2 text-center"> View Previous Auction Activity <a href="previousBidList.php" class="text-dark"> Here </a></h1>';
+        }
+        echo '<h1 class="mt-2 text-center"> Your Current Bids </h1>';
+    } else {
+        echo '<h1 class="mt-2 text-center" style="margin-bottom: 475px"> Please Sign In To View Your Bids <a href="logIn.php" class="text-dark"> Log In Here </a></h1>';
+    }
+    ?>
+    <div class="row justify-content-md-center h-100">
+        <?php
+        //html winning variable made for every individual auction item that the user is currently winning
+        $winningHTML = "<div class='col-lg-4 col-md-6 mb-4 mt-5'>
+                <div class='card h-100 border'>
+                    <a href='#'><img class='card-img-top' src='%s' alt=''></a>
+    <div class='card-body'>
+                        <div class='alert alert-success text-center' role='alert' id='alertNo%s'>
+                            <i class='fa fa-check'> You Are Winning This Auction </i>  
+                        </div>
+                        <h5>%s</h5>
+                        <p class='card-tex'>%s</p>
+                    </div>
+                    <div class='card-footer'>      
+                        <div id='cardFooterNo%s'> 
+                            <p class='text-white' id='endDate'><strong> End Date : %s </strong></p> 
+                            <p><strong class=''> Starting Bid : £%s </strong></p>
+                            <p style='color: lightgreen' id='bidNo%s'><strong> Your Bid : £%s </strong></p>
+                            <p><i class='fa fa-clock-o' id='countDown%s'> </i></p>
+                       </div>
+                       <form method='post' action='singleItem.php'>
+                       <button name='viewBtn' class='btn  rounded-pill btn-custom  text-uppercase' type='submit' href='index.php'><strong> View </strong> </button> 
+                       <input name='auctionID' value='%s' style='display: none' id='auctionID%s'>
+                       </form>  
+                    </div> 
+                </div>
+            </div>";
+
+
+        //html winning variable made for every individual auction item that the user is currently losing
+        $losingHTML = "<div class='col-lg-4 col-md-6 mb-4 mt-5'>
+                <div class='card h-100 border'>
+                    <a href='#'><img class='card-img-top' src='%s' alt=''></a>
+                    <div class='card-body'>
+                        <div class='alert alert-danger text-center' role='alert'>
+                            <i class='fa fa-exclamation-circle'> You are losing this auction!  </i>  
+                        </div>
+                        <h5>%s</h5>
+                        <p class='card-tex'>%s</p>
+                    </div>
+                    <div class='card-footer'>      
+                      <p class='text-white' id='endDate'><strong> End Date : %s </strong></p> 
+                       <p><strong> Starting Bid : £%s </strong></p>
+                       <p style='color: red' id='bidNo%s'><strong> Your Bid : £%s </strong>
+                       <p><strong style='color: lightgreen' id='winningBid%s'> Winning Bid : £%s </strong>
+                        <p><i class='fa fa-clock-o' id='countDown%s'> </i></p>
+                       <form method='post' action='singleItem.php'>
+                       <button name='viewBtn' class='btn  rounded-pill btn-custom  text-uppercase' type='submit' href='index.php'><strong> View </strong> </button> 
+                       <input name='auctionID' value='%s' style='display: none' id='auctionID%s'>
+                        </form>  
+                    </div> 
+                </div>
+            </div>";
+
+        //gets all of the users auction item that they have placed a bid on
+        $arrayOfLots = generateAllCurrentBids();
+        //gets all of the users current bid amount
+        $bidsOfUser = getUserBidInfo();
+        $maxBids = getMaxBidInfo();
+
+        $i = 0;
+
+        //for every lot produce a card and if they are the largest big produce the winning html if not the losing html
+        //if the user is logged in and does not have any bids display a message
+        foreach ($arrayOfLots as $lot) {
+            $maxBidOnItem = $bidData->getMaxBid($bidsOfUser[$i]);
+            $imagePath = $lot->getImagePath();
+            $itemName = $lot->getProductName();
+            $itemDescription = $lot->getProductDescription();
+            $endDate = $lot->getEndDate();
+            $minBid = $lot->getMinimumBid();
+            $itemId = $lot->getItemID();
+
+            if ($maxBids[$i] == $maxBidOnItem) {
+                echo sprintf($winningHTML, $imagePath, $i, $itemName, $itemDescription, $i, $endDate, $minBid, $i, $maxBids[$i], $i, $itemId, $i);
+            } else {
+                echo sprintf($losingHTML, $imagePath, $itemName, $itemDescription, $endDate, $minBid, $i, $maxBids[$i], $i, $maxBidOnItem,$i, $itemId, $i);
+            }
+
+            $i++;
+        }
+        if ($i == 0 && $user->loggedIn()) {
+            echo '<h1 class="mt-2 text-center" style="margin-bottom: 475px"> You have not placed a bid on any items at the moment</h1>';
+        } else {
+            echo '<h1 id="numberOfLots" style="display: none"> ' . $i . ' </h1>';
+        }
+
+        ?>
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.row -->
+<script src="AJAX/liveAuction.js">
+
+</script>
+<?php require('Template/footer.phtml'); ?>

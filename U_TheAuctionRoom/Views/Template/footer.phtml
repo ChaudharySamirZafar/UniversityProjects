@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<footer class=" bg-dark text-white pt-5 pb-4 mt-2">
+    <div class="container text-center text-md-left">
+        <div class="row text-center text-md-left">
+            <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h5 class="text-uppercase mb-4 font-weight-bold">The Auction Room</h5>
+                <p><strong> Auction With Affordability</strong></p>
+            </div>
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+                <h5 class="text-uppercase mb-4 font-weight-bold">Useful links</h5>
+                <?php
+                if($user->getAdminStatus() == true)
+                {
+                    echo '<p>
+                    <a href="index.php" class="text-white" style="text-decoration: none;"> <strong> Home </strong></a>
+                </p>
+                <p>
+                    <a href="sellItems.php" class="text-white" style="text-decoration: none;"><strong> Sell Items</strong></a>
+                </p>';
+                    echo '<p>
+                    <a href="auctions.php" class="text-white" style="text-decoration: none;"> <strong> Manage Auctions  </strong></a>
+                </p>';
+                }
+                else
+                {
+                    echo '<p>
+                    <a href="index.php" class="text-white" style="text-decoration: none;"> <strong> Home </strong></a>
+                </p>
+                <p>
+                    <a href="bidList.php" class="text-white" style="text-decoration: none;"> <strong> Bid List </strong></a>
+                </p>';
+                }
+                ?>
+
+            </div>
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h5 class="text-uppercase mb-4 font-weight-bold" >Contact</h5>
+                <p>
+                    <strong> <i class="fa fa-home mr-3"></i> Manchester UK </strong>
+                </p>
+                <p>
+                    <strong> <i class="fa fa-envelope mr-3"></i>samirzafar1@outlook.com </strong>
+                </p>
+                <p>
+                    <strong> <i class="fa fa-phone mr-3"></i>+44 07456979576 </strong>
+                </p>
+            </div>
+        </div>
+        <hr class="mb-4">
+        <div class="row align-items-center">
+            <div class="col-md-7 col-lg-8">
+                <p>	Copyright ©2020 All rights reserved by:
+                    Samir Zafar
+            </div>
+            <div class="col-md-5 col-lg-4">
+                <div class="text-center text-md-right">
+                    <ul class="list-unstyled list-inline">
+                        <li class="list-inline-item">
+                            <a href="#" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="fa fa-facebook"></i></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="fa fa-google-plus"></i></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="fa fa-youtube"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+<!-- Required bootstrap javascript -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</html>

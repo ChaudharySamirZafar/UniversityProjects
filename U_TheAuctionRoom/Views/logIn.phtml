@@ -1,0 +1,43 @@
+<?php require('Template/header.phtml'); ?>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                <div class="card card-signin my-5">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Sign In</h5>
+                        <form class="form-signin" method="post" action="logIn.php" style="margin-bottom: 50px;">
+                            <div class="form-label-group">
+                                <label ><strong> Email address</strong></label>
+                                <input type="email" id="inputEmail" class="form-control" placeholder="Email address"
+                                       name="email" value = "<?php echo (isset($_COOKIE['email']))?$_COOKIE['email']:'';?>" required autofocus>
+
+                            </div>
+                            <div class="form-label-group">
+                                <label ><strong> Password</strong></label>
+                                <input type="password" id="inputPassword" class="form-control" placeholder="Password"
+                                       name="password" value = "<?php echo (isset($_COOKIE['password']))?$_COOKIE['password']:'';?>" required>
+                            </div>
+                            <div class="forgot-link form-group d-flex justify-content-between align-items-center">
+                                <div class="form-check">
+                                    <input name="rememberPassword" type="checkbox" class="form-check-input" id="remember" value="true">
+                                    <label class="form-check-label" for="remember">Remember Password</label>
+                                </div>
+                                <a href="#">Forgot Password?</a>
+                            </div>
+                            <?php
+                            //if the details of the user are incorrect then display the error
+                            if ($view->error == true) {
+                                echo '<div class="alert alert-danger text-center" role="alert">
+                            <i class="fa fa-exclamation-circle"> Incorrect Credentials - Try again   </i>  
+                        </div>';
+                            }
+                            ?>
+                            <button name="logInButton" type="submit" class="btn mt-5 rounded-pill btn-lg btn-custom btn-block text-uppercase">Log in</button>
+                            <p class="mt-3 font-weight-normal text-center">Don't have an account? <a href="register.php" style="text-decoration: none"><strong>Register Now</strong></a></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php require('Template/footer.phtml'); ?>

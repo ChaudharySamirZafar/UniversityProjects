@@ -1,0 +1,83 @@
+<?php require('Template/header.phtml');?>
+<h1 class="text-center"> Live Auctions </h1>
+<div class="container justify-content-md-center">
+    <div class="row justify-content-md-center">
+        <?php
+        $i = 0;
+        // a html template for each auction item
+        $cardHTMLTemplate = "
+                    <div class='col-lg-4 col-md-6 mb-4 mt-5'>
+                <div class='card h-100 border'>
+                    <a href='#'><img class='card-img-top' src='%s' alt=''></a>
+    <div class='card-body'>
+                        <h4 class='34'>
+                            <a href='#' class='text-dark'> %s</a>
+                        </h4>
+                        <p class='card-tex'>%s</p>
+                    </div>
+                    <div class='card-footer'>      
+                      <p class='text-white'><strong> End Date : %s </strong></p> 
+                       <p><strong> Starting Bid : £%s </strong></p>
+                       <form method='post' action='singleItem.php'>
+                       <button name='viewBtn' class='btn  rounded-pill btn-custom  text-uppercase' type='submit'><strong> View </strong> </button> 
+                       <input name='auctionID' value='%s' style='display: none'>
+                       </form>
+                    </div> 
+                </div>
+            </div>";
+
+            //results is a array which fetches the current user listings
+            $results = fetchUsersCurrentListings();
+            //the for each displays all of the data for each auction
+            //if the user has no current auction items then the message will appear
+            foreach ($results as $index => $item) {
+                $imagePath = $item->getImagePath();
+                $itemTitle = $item->getProductTitle();
+                $itemName = $item->getProductName();
+                $itemDescription = $item->getProductDescription();
+                $endDate = $item->getEndDate();
+                $minBid = $item->getMinimumBid();
+                $itemID = $item->getItemID();
+                echo sprintf($cardHTMLTemplate, $imagePath, $itemName, $itemDescription, $endDate, $minBid,$itemID);
+
+                $i++;
+            }
+                if($i == 0)
+                {
+                echo "<h1 class='text-center '> None of your auctions are currently live</h1> ";
+                }
+
+        ?>
+        </div>
+    </div>
+</div>
+<h1 class="text-center" style="border-top: 1px solid black" > Upcoming Auctions </h1>
+<div class="container justify-content-md-center">
+    <div class="row justify-content-md-center">
+        <?php
+        global $cardHTMLTemplate;
+        //itemData is an array that stores of all the items a user has posted in the future
+        $itemData = fetchUsersFutureListings();
+        $i = 0;
+        //this for each will display all of the details for a item
+        //if the user has no future auction items then the message will appear
+        foreach ($itemData as $index => $item) {
+            $imagePath = $item->getImagePath();
+            $itemTitle = $item->getProductTitle();
+            $itemName = $item->getProductName();
+            $itemDescription = $item->getProductDescription();
+            $endDate = $item->getEndDate();
+            $minBid = $item->getMinimumBid();
+            $itemID = $item->getItemID();
+            echo sprintf($cardHTMLTemplate, $imagePath, $itemName, $itemDescription, $endDate, $minBid, $itemID);
+            $i++;
+        }
+        if($i == 0)
+        {
+            echo "<h1 class='text-center ' style='margin-bottom: 300px;'> You have no listings scheduled for the future</h1> ";
+        }
+        ?>
+    </div>
+</div>
+<?php require('Template/footer.phtml');?>
+
